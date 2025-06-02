@@ -130,6 +130,7 @@ public class Tarea implements Serializable {
         }
 
         this.descripcion = descripcion;
+        System.out.println("Descripción actualizada.");
     }
 
     public void setFechaEstimadaInicio(LocalDate fecha) {
@@ -140,6 +141,10 @@ public class Tarea implements Serializable {
 
         if (fecha.isBefore(LocalDate.now())) {
             throw new IllegalArgumentException("La fecha estimada de inicio no puede estar en el pasado.");
+        }
+
+        if (fecha.isAfter(fechaEstimadaFinal)) {
+            throw new IllegalArgumentException("La fecha estimada de inicio no puede ser posterior a la fecha estimada de finalización.");
         }
 
         this.fechaEstimadaInicio = fecha;

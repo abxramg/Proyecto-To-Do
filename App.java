@@ -343,7 +343,6 @@ public static void main(String[] args) {
             case "2":
                 System.out.print("Nueva descripción: ");
                 tarea.setDescripcion(scanner.nextLine());
-                System.out.println("Descripción actulizada.");
                 break;
 
             case "3":
