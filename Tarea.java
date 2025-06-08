@@ -86,34 +86,66 @@ public class Tarea implements Serializable {
 
     // Getters
 
+    /**
+     * Obtiene el identificador único de la tarea.
+     * @return ID de la tarea
+     */
     public int getId() {
         return id;
     }
 
+    /**
+     * Obtiene la descripción de la tarea.
+     * @return Descripción de la tarea
+     */
     public String getDescripcion() {
         return descripcion;
     }
 
+    /**
+     * Obtiene el estado actual de la tarea.
+     * @return Estado de la tarea
+     */
     public Estado getEstado() {
         return estado;
     }
 
+     /**
+     * Obtiene el usuario al que está asignada la tarea.
+     * @return Usuario asignado
+     */
     public Usuario getAsignacion() {
         return asignacion;
     }
 
+    /**
+     * Obtiene la fecha estimada de inicio de la tarea.
+     * @return Fecha estimada de inicio
+     */
     public LocalDate getFechaEstimadaInicio() {
         return fechaEstimadaInicio;
     }
 
+    /**
+     * Obtiene la fecha real de inicio de la tarea.
+     * @return Fecha real de inicio
+     */
     public LocalDate getFechaInicio() {
         return fechaInicio;
     }
 
+    /**
+     * Obtiene la fecha estimada de finalización de la tarea.
+     * @return Fecha estimada de finalización
+     */
     public LocalDate getFechaEstimadaFinal() {
         return fechaEstimadaFinal;
     }
 
+    /**
+     * Obtiene la fecha real de finalización de la tarea.
+     * @return Fecha real de finalización
+     */
     public LocalDate getFechaFinal() {
         return fechaFinal;
     }
@@ -121,7 +153,9 @@ public class Tarea implements Serializable {
 
     // Setters con validación
 
-    /** Permite cambiar la descripción solo si la tarea está en estado PENDIENTE. */
+    /** 
+     * Permite cambiar la descripción solo si la tarea está en estado PENDIENTE. 
+     */
 
     public void setDescripcion(String descripcion) {
         if (estado != Estado.PENDIENTE) {
@@ -133,6 +167,11 @@ public class Tarea implements Serializable {
         System.out.println("Descripción actualizada.");
     }
 
+    /**
+     * Establece una nueva fecha estimada de inicio, si la tarea está pendiente.
+     * @param fecha Nueva fecha estimada de inicio
+     * @throws IllegalArgumentException Si la fecha es inválida
+     */
     public void setFechaEstimadaInicio(LocalDate fecha) {
         if (estado != Estado.PENDIENTE) {
             System.out.println("No se puede modificar la fecha estimada de inicio una vez iniciada.");
@@ -150,6 +189,11 @@ public class Tarea implements Serializable {
         this.fechaEstimadaInicio = fecha;
     }
 
+    /**
+     * Establece una nueva fecha estimada de finalización, si la tarea está pendiente.
+     * @param fecha Nueva fecha estimada de finalización
+     * @throws IllegalArgumentException Si la fecha es inválida
+     */
     public void setFechaEstimadaFin(LocalDate fecha) {
         if (estado != Estado.PENDIENTE) {
             System.out.println("La fecha estimada de finalización no puede modificarse una vez iniciada.");
@@ -162,6 +206,10 @@ public class Tarea implements Serializable {
         this.fechaEstimadaFinal = fecha;
     }
 
+    /**
+     * Reasigna la tarea a un nuevo usuario, si la tarea está pendiente.
+     * @param nuevoUsuario Nuevo usuario asignado
+     */
     public void setAsignacion(Usuario nuevoUsuario) {
         if (estado != Estado.PENDIENTE) {
             System.out.println("No se puede reasignar una tarea ya en curso/completada.");
@@ -170,6 +218,10 @@ public class Tarea implements Serializable {
         this.asignacion = nuevoUsuario;
     }
 
+    /**
+     * Devuelve una representación en texto de la tarea, incluyendo fechas, estado y asignación.
+     * @return Cadena con los datos de la tarea
+     */
     @Override
     public String toString() {
         DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
@@ -182,6 +234,10 @@ public class Tarea implements Serializable {
                (fechaFinal !=null ? "\nFecha de finalización: " + formato.format(fechaFinal) : "") + "\n";              
     }
 
+    /**
+     * Actualiza el contador estático de ID para asegurar que no se repitan los identificadores al cargar tareas desde almacenamiento.
+     * @param tareas Lista de tareas cargadas desde almacenamiento
+     */
     public static void actualizarContadorID(List<Tarea> tareas) {
         int nuevoID = 1;
         for (Tarea tarea : tareas) {

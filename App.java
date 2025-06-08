@@ -3,7 +3,10 @@ import java.time.format.DateTimeFormatter;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
-
+/**
+ * Clase principal que maneja la interfaz de usuario del Sistema de Gestión de Tareas.
+ * Permite iniciar sesión y acceder a menús según el rol del usuario (Administrador, Desarrollador o Invitado).
+ */
 public class App {
 
     private static GestorUsuarios gestorUsuarios = new GestorUsuarios();
@@ -11,6 +14,11 @@ public class App {
     private static Scanner scanner = new Scanner(System.in);
     private static DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
+    /**
+     * Método principal que inicia la aplicación.
+     * 
+     * @param args Argumentos de línea de comandos (no utilizados).
+     */
 public static void main(String[] args) {
 
     DatosDePrueba.cargar(gestorUsuarios, gestorTareas);
@@ -34,11 +42,13 @@ public static void main(String[] args) {
             default:
                 System.out.println("Opción inválida.");
         }
-    }
-    
+    } 
 }
 
-    // Solicitar datos y validar usuario para iniciar sesión
+    /**
+     * Solicita credenciales al usuario y autentica su identidad.
+     * Si la autenticación es exitosa, redirige al menú correspondiente según su rol.
+     */
     private static void iniciarSesion() {
         System.out.println("Correo o nickname: ");
         String identificador = scanner.nextLine();
@@ -66,8 +76,11 @@ public static void main(String[] args) {
         }
     }  
 
-    // Menú mostrado para un usuario administrador
-
+     /**
+     * Muestra el menú de opciones para un Administrador.
+     * 
+     * @param admin El Administrador que ha iniciado sesión.
+     */
     private static void menuAdmin(Administrador admin) {
         while (true) {
             System.out.println("Menú Administrador:");
@@ -109,13 +122,14 @@ public static void main(String[] args) {
                 default:
                     System.out.println("Opción no válida.");
             }   
-    
-
         }
     }
 
-    // Menú mostrado para un usuario desarrollador
-
+    /**
+     * Muestra el menú de opciones para un Desarrollador.
+     * 
+     * @param dev El Desarrollador que ha iniciado sesión.
+     */
     private static void menuDesarrollador(Desarrollador dev) {
         while (true) {
             System.out.println("Menú Desarrollador: ");
@@ -150,8 +164,11 @@ public static void main(String[] args) {
         }
     }
 
-    // Menú mostrado para un usuario invitado
-
+    /**
+     * Muestra el menú de opciones para un Invitado.
+     * 
+     * @param invitado El Invitado que ha iniciado sesión.
+     */
     private static void menuInvitado(Invitado invitado) {
         while (true) {
             System.out.println("Menú Invitado: ");
@@ -180,6 +197,9 @@ public static void main(String[] args) {
         }
     }
 
+    /**
+     * Crea un nuevo usuario en el sistema después de validar sus datos.
+     */
     private static void crearUsuario() {
         System.out.print("Nombre completo: ");
         String nombre = scanner.nextLine();
@@ -199,7 +219,6 @@ public static void main(String[] args) {
             }
         }
 
-
         System.out.print("Correo: ");
         String correo = scanner.nextLine();
         for (Usuario usuario : gestorUsuarios.getUsuarios()) {
@@ -212,7 +231,6 @@ public static void main(String[] args) {
                 return;
             }
         }
-
 
         System.out.print("Contraseña: ");
         String pass = scanner.nextLine();
@@ -254,6 +272,11 @@ public static void main(String[] args) {
         }
     }
 
+    /**
+     * Crea una nueva tarea asignada al usuario actual.
+     * 
+     * @param usuario El usuario al que se asignará la tarea.
+     */
     private static void crearTarea(Usuario usuario) {
     try {
         System.out.println("Crear una nueva tarea.");
@@ -275,6 +298,9 @@ public static void main(String[] args) {
         }
     }
 
+    /**
+     * Crea una nueva tarea y la asigna a un usuario específico (solo para Administradores).
+     */
     private static void crearTarea() {
         try {
             System.out.println("Crear una nueva tarea.");
@@ -308,6 +334,11 @@ public static void main(String[] args) {
             }
         }
 
+    /**
+     * Actualiza los datos de una tarea existente.
+     * 
+     * @param usuario El usuario que realiza la actualización.
+     */
     private static void actualizarTarea(Usuario usuario) {
         System.out.print("ID de la tarea a actualizar: ");
         int id = Integer.parseInt(scanner.nextLine());
@@ -392,6 +423,11 @@ public static void main(String[] args) {
         }
     }
 
+    /**
+     * Elimina una tarea del sistema (solo para Administradores).
+     * 
+     * @param admin El Administrador que realiza la eliminación.
+     */
     private static void eliminarTarea(Administrador admin) {
         System.out.println("ID de la tarea a eliminar: ");
         int id = Integer.parseInt(scanner.nextLine());
@@ -399,12 +435,18 @@ public static void main(String[] args) {
         System.out.println("Tarea eliminada.");
     }
 
+    /**
+     * Filtra y muestra tareas según su estado.
+     */
     private static void filtrarPorEstado() {
         System.out.print("Estado (PENDIENTE, EN_CURSO, COMPLETADA): ");
         String estado = scanner.nextLine().toUpperCase();
         gestorTareas.mostrarTareasPorEstado(estado);
     }
 
+     /**
+     * Filtra y muestra tareas asignadas a un usuario específico.
+     */
     private static void filtrarPorUsuario() {
         System.out.print("Nickname del usuario: ");
         String nick = scanner.nextLine();
@@ -416,6 +458,12 @@ public static void main(String[] args) {
         
     }
 
+    /**
+     * Valida el formato de un correo electrónico.
+     * 
+     * @param correo El correo a validar.
+     * @return 
+     */
     private static boolean correoValido(String correo) {
         if (!correo.contains("@"))
             return false;
